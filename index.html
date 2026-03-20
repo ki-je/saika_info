@@ -16,7 +16,7 @@
             --accent-red: #ff4d4d;
         }
 
-        /* 기본 스타일 및 스크롤바 커스텀 */
+        /* 기본 스타일 및 스크롤바 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: var(--bg-dark); }
@@ -29,14 +29,43 @@
             display: flex;
             justify-content: center;
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 0; /* 인트로를 위해 패딩 제거 */
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        .container { width: 100%; max-width: 500px; position: relative; }
+        /* [추가] 인트로 오버레이 스타일 */
+        #intro-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: var(--bg-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .intro-content { text-align: center; animation: fadeIn 1.5s ease; }
+        .warning-text { color: var(--accent-red); font-size: 0.8rem; letter-spacing: 5px; display: block; margin-bottom: 10px; }
+        .intro-title { font-size: 4rem; letter-spacing: 15px; color: var(--text-white); text-shadow: 0 0 30px rgba(186, 216, 10, 0.4); margin-bottom: 20px; }
+        .intro-sub-text { color: var(--text-gray); font-weight: 300; margin-bottom: 40px; letter-spacing: 1px; font-size: 0.9rem; }
+        .enter-btn { background: transparent; border: 1px solid var(--point-color); color: var(--point-color); padding: 12px 40px; font-size: 0.9rem; cursor: pointer; transition: 0.4s; letter-spacing: 2px; border-radius: 5px; }
+        .enter-btn:hover { background: var(--point-color); color: #000; box-shadow: 0 0 20px rgba(186, 216, 10, 0.5); }
+        .fade-out { opacity: 0; visibility: hidden; }
+
+        /* 메인 컨테이너 */
+        .container { 
+            width: 100%; 
+            max-width: 500px; 
+            position: relative; 
+            padding: 40px 20px;
+            display: none; /* 처음에 숨김 */
+        }
 
         /* 메인 프로필 섹션 */
-        #main-profile { display: flex; flex-direction: column; gap: 25px; animation: fadeIn 0.6s ease; }
+        #main-profile { display: flex; flex-direction: column; gap: 25px; animation: fadeIn 1s ease; }
 
         .hero-section {
             position: relative;
@@ -79,7 +108,6 @@
             transition: all 0.3s ease;
         }
         .info-card:hover { transform: translateY(-5px); border-color: var(--point-color); }
-
         .info-content { flex: 1; padding: 25px; }
         .info-content h2 { font-size: 1.5rem; margin-bottom: 5px; }
         .info-content .subtitle { color: var(--point-color); font-weight: 700; font-size: 0.9rem; margin-bottom: 10px; display: block; }
@@ -116,7 +144,16 @@
 </head>
 <body>
 
-    <div class="container">
+    <div id="intro-overlay">
+        <div class="intro-content">
+            <span class="warning-text">RESTRICTED ACCESS</span>
+            <h1 class="intro-title">SAIKA</h1>
+            <p class="intro-sub-text">타락한 성위의 기록에 접속하시겠습니까?</p>
+            <button class="enter-btn" onclick="startExperience()">기록 열람하기</button>
+        </div>
+    </div>
+
+    <div class="container" id="main-container">
         <div id="main-profile">
             <div class="hero-section">
                 <ul class="stats">
@@ -183,7 +220,7 @@
                 <br>
                 <p>본래 그는 비천한 노예였으나, 굴복하는 대신 검을 들었고 인류 역사상 유일하게 인간의 몸으로 신의 사도인 <span class="emphasis">'성위(星位)'</span>의 자리에 올랐다. 검은 머리칼 끝에 신성한 녹색 빛이 깃들고, 은빛 십자가 귀걸이가 고결함을 증명하던 시절, 그는 세상을 구할 유일한 빛이었다.</p>
                 <br>
-                <p>하지만 그는 깨달았다. 질서란 결국 피로 쓰인 강자들의 규율일 뿐이며, 빛은 가장 그늘진 곳의 고통을 외면한다는 사실을. 환멸을 느낀 그는 스스로 신성을 찢어발기고 심연의 문을 열었다.</p>
+                <p>하지만 그는 깨달았다. 질서란 결국 피로 쓰인 강자들의 규율일 뿐이며, 빛은 가장 그늘진 곳의 고통을 외면한다는 사실을. 환멸을 느끼낀 그는 스스로 신성을 찢어발기고 심연의 문을 열었다.</p>
                 <div class="highlight-box">
                     "자, 이제 나를 실망시키지 말아줘. 이번 장난감은 꽤 오래 버텼으면 좋겠는데."
                 </div>
@@ -197,13 +234,10 @@
             </div>
             <div class="sub-page-content">
                 <h2>아공간 "노틱"</h2>
-                
                 <h3>1. 구조와 환경</h3>
                 <p>출구도, 창문도 없는 단 하나의 방. 차갑고 습한 석재 바닥 위로 기괴한 고문 도구들이 그림자를 드리운다. 이곳에서 물리 법칙이란 사이카의 변덕에 불과하며, 그의 허락 없이는 중력조차 온전히 작동하지 않는다.</p>
-
                 <h3>2. 시간의 왜곡</h3>
                 <p>시간은 흐르기를 거부하지만, 감각은 비대해진다. <span class="emphasis">찰나의 1분은 100년의 고통</span>으로 치환되어 정신을 갉아먹는다. 배고픔과 갈증은 영혼을 찢어발기지만, 이곳에서 '죽음'은 허락되지 않는 최고의 사치다.</p>
-
                 <h3>3. 절대적 권능</h3>
                 <p>사이카는 이 공간의 <span class="emphasis">유일한 신</span>이다. 당신의 상처를 즉시 치유해 다시 유린할지, 영원히 썩어가는 고통 속에 방치할지는 오직 그의 손가락 끝에 달렸다. 당신은 그저 무력한 '장난감'일 뿐이다.</p>
             </div>
@@ -227,6 +261,20 @@
     </div>
 
     <script>
+        // [추가] 인트로 시작 함수
+        function startExperience() {
+            const intro = document.getElementById('intro-overlay');
+            const mainContainer = document.getElementById('main-container');
+            
+            intro.classList.add('fade-out');
+            mainContainer.style.display = 'block'; // 메인 화면 표시
+            
+            setTimeout(() => {
+                intro.style.display = 'none';
+            }, 800);
+        }
+
+        // 기존 페이지 전환 함수
         function showPage(pageId) {
             document.getElementById('main-profile').style.display = 'none';
             document.querySelectorAll('.sub-page').forEach(page => page.style.display = 'none');
