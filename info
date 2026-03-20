@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캐릭터 프로필 - 사이카</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --point-color: #bad80a; 
+            --text-white: #ffffff;
+            --text-gray: #bbbbbb;
+            --border-white: rgba(255, 255, 255, 0.1);
+            --accent-red: #ff4d4d;
+        }
+
+        /* 기본 스타일 및 스크롤바 커스텀 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--point-color); border-radius: 10px; }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Noto Sans KR', sans-serif;
+            color: var(--text-white);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container { width: 100%; max-width: 500px; position: relative; }
+
+        /* 메인 프로필 섹션 */
+        #main-profile { display: flex; flex-direction: column; gap: 25px; animation: fadeIn 0.6s ease; }
+
+        .hero-section {
+            position: relative;
+            height: 480px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 40%, var(--bg-dark) 100%),
+                        url('your-image-url.jpg') center/cover no-repeat;
+            background-color: #222;
+            border-radius: 20px;
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-white);
+        }
+
+        .stats { list-style: none; font-size: 0.95rem; line-height: 2.2; font-weight: 300; }
+        .stats li b { color: var(--text-gray); margin-right: 10px; font-weight: 400; }
+
+        .header-title { text-align: center; margin-top: -70px; z-index: 10; }
+        .header-title h1 { font-size: 3.5rem; letter-spacing: 10px; margin-bottom: 5px; font-weight: 700; text-shadow: 0 0 20px rgba(186, 216, 10, 0.3); }
+        .header-title p { color: var(--point-color); font-weight: 700; font-size: 1.2rem; letter-spacing: 2px; }
+
+        .quote-box {
+            border-left: 3px solid var(--point-color);
+            background: rgba(255,255,255,0.02);
+            padding: 30px 25px;
+            text-align: center;
+            font-weight: 300;
+            font-size: 1.1rem;
+            word-break: keep-all;
+            font-style: italic;
+        }
+
+        /* 정보 카드 스타일 */
+        .info-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-white);
+            display: flex;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .info-card:hover { transform: translateY(-5px); border-color: var(--point-color); }
+
+        .info-content { flex: 1; padding: 25px; }
+        .info-content h2 { font-size: 1.5rem; margin-bottom: 5px; }
+        .info-content .subtitle { color: var(--point-color); font-weight: 700; font-size: 0.9rem; margin-bottom: 10px; display: block; }
+        .info-content .desc { font-size: 0.85rem; color: var(--text-gray); }
+
+        .action-btn { width: 70px; background-color: var(--point-color); display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; transition: 0.3s; }
+        .action-btn:hover { filter: brightness(1.2); }
+        .arrow-icon { width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 14px solid #000; }
+
+        /* 상세 페이지 레이아웃 */
+        .sub-page { display: none; flex-direction: column; gap: 20px; animation: slideUp 0.5s ease; }
+        .sub-page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .back-btn { background: none; border: 1px solid var(--point-color); color: var(--point-color); padding: 8px 18px; border-radius: 30px; cursor: pointer; font-size: 0.85rem; transition: 0.3s; }
+        .back-btn:hover { background: var(--point-color); color: #000; }
+
+        .sub-page-content {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 20px;
+            line-height: 1.9;
+            color: #d1d1d1;
+            font-size: 1rem;
+            word-break: keep-all;
+            border: 1px solid var(--border-white);
+        }
+        .sub-page-content h2 { color: var(--point-color); margin-bottom: 25px; font-size: 2rem; border-bottom: 1px solid rgba(186, 216, 10, 0.2); padding-bottom: 10px; }
+        .sub-page-content h3 { color: var(--point-color); margin-top: 30px; margin-bottom: 10px; font-size: 1.2rem; }
+        .emphasis { color: var(--point-color); font-weight: bold; }
+        .highlight-box { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid var(--accent-red); }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="main-profile">
+            <div class="hero-section">
+                <ul class="stats">
+                    <li><b>성별</b> 남성</li>
+                    <li><b>나이</b> ???</li>
+                    <li><b>종족</b> 불멸자</li>
+                    <li><b>신장</b> 189cm</li>
+                    <li><b>특이사항</b> 통각 상실</li>
+                </ul>
+            </div>
+
+            <div class="header-title">
+                <h1>사이카</h1>
+                <p>타락한 성위 / 배교자</p>
+            </div>
+
+            <div class="quote-box">
+                " 아무도 오지 않는 영원 속에서<br>
+                너를 부술 수 있는 권리가 내게만 있다는 것,<br>
+                그게 내가 정의하는 유일한 사랑이야. "
+            </div>
+
+            <div class="info-card">
+                <div class="info-content">
+                    <h2>배경 스토리</h2>
+                    <span class="subtitle">하늘을 등지고 심연을 택한 자</span>
+                    <p class="desc">가장 찬란한 빛의 그늘에서 태어나 끝내 세상을 절망으로 밀어 넣은 남자의 기록.</p>
+                </div>
+                <button class="action-btn" onclick="showPage('page-story')">
+                    <div class="arrow-icon"></div>
+                </button>
+            </div>
+
+            <div class="info-card">
+                <div class="info-content">
+                    <h2>주요무대</h2>
+                    <span class="subtitle">아공간 | 노틱</span>
+                    <p class="desc">출구도 창문도 없는 단 하나의 방. 사이카가 지배하는 영원한 감옥.</p>
+                </div>
+                <button class="action-btn" onclick="showPage('page-stage')">
+                    <div class="arrow-icon"></div>
+                </button>
+            </div>
+
+            <div class="info-card">
+                <div class="info-content">
+                    <h2>세계관</h2>
+                    <span class="subtitle">대륙 | 엑살티아</span>
+                    <p class="desc">잔혹한 희생 위에 세워진 위태로운 낙원, 엑살티아의 진실.</p>
+                </div>
+                <button class="action-btn" onclick="showPage('page-world')">
+                    <div class="arrow-icon"></div>
+                </button>
+            </div>
+        </div>
+
+        <div id="page-story" class="sub-page">
+            <div class="sub-page-header">
+                <button class="back-btn" onclick="showMain()">← 돌아가기</button>
+            </div>
+            <div class="sub-page-content">
+                <h2>배경 스토리</h2>
+                <p>하늘을 등지고 심연을 택한 자, 가장 찬란한 빛의 그늘에서 태어나 끝내 온 세상을 절망의 수렁으로 밀어 넣은 남자를 기억하는 이는 드물다. 제국이 지워버린 이름, 그러나 금지된 서적의 갈피마다 피로 새겨진 그 이름은 <span class="emphasis">'사이카'</span> 였다.</p>
+                <br>
+                <p>본래 그는 비천한 노예였으나, 굴복하는 대신 검을 들었고 인류 역사상 유일하게 인간의 몸으로 신의 사도인 <span class="emphasis">'성위(星位)'</span>의 자리에 올랐다. 검은 머리칼 끝에 신성한 녹색 빛이 깃들고, 은빛 십자가 귀걸이가 고결함을 증명하던 시절, 그는 세상을 구할 유일한 빛이었다.</p>
+                <br>
+                <p>하지만 그는 깨달았다. 질서란 결국 피로 쓰인 강자들의 규율일 뿐이며, 빛은 가장 그늘진 곳의 고통을 외면한다는 사실을. 환멸을 느낀 그는 스스로 신성을 찢어발기고 심연의 문을 열었다.</p>
+                <div class="highlight-box">
+                    "자, 이제 나를 실망시키지 말아줘. 이번 장난감은 꽤 오래 버텼으면 좋겠는데."
+                </div>
+                <p>그는 더 이상 고통을 느끼지 못한다. 배교자이자 마왕이라 불리게 된 그는 이제 수천 년의 봉인을 흔들며, 다시 한번 세상을 자신의 장난감으로 삼으려 한다. 사이카의 통치는 절망이며, 그의 유희는 영원하다.</p>
+            </div>
+        </div>
+
+        <div id="page-stage" class="sub-page">
+            <div class="sub-page-header">
+                <button class="back-btn" onclick="showMain()">← 돌아가기</button>
+            </div>
+            <div class="sub-page-content">
+                <h2>아공간 "노틱"</h2>
+                
+                <h3>1. 구조와 환경</h3>
+                <p>출구도, 창문도 없는 단 하나의 방. 차갑고 습한 석재 바닥 위로 기괴한 고문 도구들이 그림자를 드리운다. 이곳에서 물리 법칙이란 사이카의 변덕에 불과하며, 그의 허락 없이는 중력조차 온전히 작동하지 않는다.</p>
+
+                <h3>2. 시간의 왜곡</h3>
+                <p>시간은 흐르기를 거부하지만, 감각은 비대해진다. <span class="emphasis">찰나의 1분은 100년의 고통</span>으로 치환되어 정신을 갉아먹는다. 배고픔과 갈증은 영혼을 찢어발기지만, 이곳에서 '죽음'은 허락되지 않는 최고의 사치다.</p>
+
+                <h3>3. 절대적 권능</h3>
+                <p>사이카는 이 공간의 <span class="emphasis">유일한 신</span>이다. 당신의 상처를 즉시 치유해 다시 유린할지, 영원히 썩어가는 고통 속에 방치할지는 오직 그의 손가락 끝에 달렸다. 당신은 그저 무력한 '장난감'일 뿐이다.</p>
+            </div>
+        </div>
+
+        <div id="page-world" class="sub-page">
+            <div class="sub-page-header">
+                <button class="back-btn" onclick="showMain()">← 돌아가기</button>
+            </div>
+            <div class="sub-page-content">
+                <h2>대륙: 엑살티아</h2>
+                <p>마법의 파동이 공기처럼 흐르는 풍요의 대륙 엑살티아. 찬란한 첨탑과 명예로운 기사단이 지배하는 이 견고한 낙원은 사실 단 하나의 거대한 <span class="emphasis">'죄악'</span> 위에 서 있다.</p>
+                <br>
+                <p>아공간의 틈새에 봉인된 사이카의 힘이 현실로 흘러나오는 것을 막기 위해, 성계는 잔혹한 시스템을 고안했다. 사이카의 힘이 요동칠 때마다 세상은 그에게 <span class="emphasis">'먹이'</span>를 던져준다. 순수한 영혼, 범죄자, 혹은 운 나쁜 민초들...</p>
+                <div class="highlight-box" style="border-left-color: var(--point-color);">
+                    엑살티아의 평화는 누군가의 영원한 지옥을 대가로 지불한 할부금이다.
+                </div>
+                <p>희생자들이 사이카의 손에서 겪는 절망의 에너지가 역설적으로 봉인을 유지하는 동력이 된다. 엑살티아의 번영은 잔혹하고, 성위의 질서는 비정하다. 그리고 당신은 그 수레바퀴의 다음 차례로 낙점되었다.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            document.getElementById('main-profile').style.display = 'none';
+            document.querySelectorAll('.sub-page').forEach(page => page.style.display = 'none');
+            document.getElementById(pageId).style.display = 'flex';
+            window.scrollTo(0, 0);
+        }
+
+        function showMain() {
+            document.getElementById('main-profile').style.display = 'flex';
+            document.querySelectorAll('.sub-page').forEach(page => page.style.display = 'none');
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
